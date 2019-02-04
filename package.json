@@ -30,12 +30,12 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^0.13.0",
-    "@jupyterlab/mainmenu": "^0.2.0"
+    "@jupyterlab/application": "~0.19.1",
+    "@jupyterlab/mainmenu": "~0.8.1"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
-    "typescript": "~2.6.0"
+    "typescript": "~3.3.1"
   },
   "jupyterlab": {
     "extension": true

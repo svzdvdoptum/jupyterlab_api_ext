@@ -6,9 +6,6 @@ import {
 	PageConfig
 } from '@jupyterlab/coreutils'
 
-export interface Greetings {
-	greetings: string;
-}
 
 function getAbsoluteURL(url:string):string {
     // baseURL always comes with a trailing slash
@@ -20,59 +17,59 @@ function getAbsoluteURL(url:string):string {
     }
 }
  
-function request(url: string, method: string, data: any): Promise<ServerConnection.IResponse>{
+function request(url: string, method: string, data: any): Promise<Response>{
+    console.log(method + " " + url)
+    console.log("DATA=" + data)
+
     let dataRequest = {
-        url: getAbsoluteURL(url),
         method: method,
-        cache: true,
-        contentType: 'bar',
-        data: JSON.stringify(data),
+        body: JSON.stringify(data),
     };
-    return ServerConnection.makeRequest(dataRequest, ServerConnection.makeSettings());
+    return ServerConnection.makeRequest(getAbsoluteURL(url), dataRequest, ServerConnection.makeSettings());
 }
 
 
 export class HelloWorld {
-    constructor(){}
+    constructor() {}
 
     async get(): Promise<void> {
-        try{
+        try {
             var val = await request("/hello", "GET", "");
-            if (val.xhr.status !== 200) {
-                console.error(val.xhr.status);
-                throw ServerConnection.makeError(val);
+            if (val.status !== 200) {
+                console.error(val.status);
+                throw new ServerConnection.ResponseError(val);
             }
-            console.log(val.data);
+            console.log(val.body);
             return null;
         } catch (err) {
-            throw ServerConnection.makeError(err);
+            throw new ServerConnection.ResponseError(err);
         }
     }
     
     async post(): Promise<void> {
-        try{
+        try {
             var val = await request("/hello", "POST", "");
-            if (val.xhr.status !== 200) {
-                console.error(val.xhr.status);
-                throw ServerConnection.makeError(val);
+            if (val.status !== 200) {
+                console.error(val.status);
+                throw new ServerConnection.ResponseError(val);
             }
-            console.log(val.data);
+            console.log(val.body);
             return null;
         } catch (err) {
-            throw ServerConnection.makeError(err);
+            throw new ServerConnection.ResponseError(err);
         }
     }
     
-    async postReply(name: string): Promise<Greetings> {
-        try{
+    async postReply(name: string): Promise<string> {
+        try {
             var val = await request("/hello/personal", "POST", {"name": name});
-            if (val.xhr.status !== 200) {
-                console.error(val.xhr.status);
-                throw ServerConnection.makeError(val);
+            if (val.status !== 200) {
+                console.error(val.status);
+                throw new ServerConnection.ResponseError(val);
             }
-            return val.data;
+            return val.text();
         } catch (err) {
-            throw ServerConnection.makeError(err);
+            throw new ServerConnection.ResponseError(err);
         }
     }
 }

@@ -9,7 +9,7 @@
     "target": "ES5",
     "outDir": "./lib",
     // "ES2015.Collection" has to be included in order to find type Set
-    "lib": ["ES5", "ES2015.Promise", "DOM", "ES2015.Collection"],
+    "lib": ["es5", "es2015.promise", "dom", "es2015.collection"],
     "types": []
   },
   "include": ["src/*"]

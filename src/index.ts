@@ -90,7 +90,7 @@ function activateHelloWorldExtension(app: JupyterLab, palette: ICommandPalette, 
           helloWorld.postReply(name).then(response => {
             showDialog({
               title: "Greetings",
-              body: response.greetings,
+              body: response,
               buttons: [Dialog.okButton()]
             });
           });
